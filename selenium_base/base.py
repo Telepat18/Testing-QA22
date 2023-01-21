@@ -31,20 +31,23 @@ class SeleniumBase:
                 EC.visibility_of_element_located((self.get_selenium_by(find_by), locator)), locator_name)
 
     def is_not_present(self, find_by: str, locator: str, locator_name: str = None) -> WebElement:
-        return self.wait.until(
-                EC.visibility_of_element_located(self.get_selenium_by(find_by), locator), locator_name)
+        return self.wait.until(ec.invisibility_of_element_located((self.get_selenium_by(find_by), locator)),
+                               locator_name)
 
     def are_visible(self, find_by: str, locator: str, locator_name: str = None) -> List[WebElement]:
-        return self.wait.until(EC.visibility_of_all_elements_located((self.get_selenium_by(find_by), locator)), locator_name)
+        return self.wait.until(ec.visibility_of_all_elements_located((self.get_selenium_by(find_by), locator)),
+                               locator_name)
 
-    def are_present(self, find_by: str, locator: str, locator_name: str =None) -> List[WebElement]:
-        return self.wait.until(EC.visibility_of_all_elements_located((self.get_selenium_by(find_by), locator)), locator_name)
+    def are_present(self, find_by: str, locator: str, locator_name: str = None) -> List[WebElement]:
+        return self.wait.until(ec.presence_of_all_elements_located((self.get_selenium_by(find_by), locator)),
+                               locator_name)
 
-    def is_clickable(self, find_by: str, locator: str, locator_name: str = None):
-        return self.wait.until(EC.element_to_be_clickable((self.get_selenium_by(find_by), locator)), locator_name)
+    def element_is_clickable(self, find_by: str, locator, locator_name: str = None):
+        return self.wait.until(ec.element_to_be_clickable((self.get_selenium_by(find_by), locator)),
+                               locator_name).click()
 
     def go_to_element(self, element):
-        return self.driver.execute_script("arguments[0].scrollIntoView();", element)
+        self.driver.execute_script("arguments[0].scrollIntoView();", element)
 
     def find_element(self, find_by: str, locator: str, locator_name: str =None) -> List[WebElement]:
         return self.wait.until(EC.visibility_of_all_elements_located((self.get_selenium_by(find_by), locator)), locator_name)
